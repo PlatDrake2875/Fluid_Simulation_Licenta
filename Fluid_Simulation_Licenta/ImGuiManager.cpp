@@ -31,22 +31,19 @@ void ImGuiManager::Cleanup() {
 }
 
 void ImGuiManager::Render() {
-    // Start the ImGui frame
     ImGui_ImplOpenGL3_NewFrame();
     ImGui_ImplGLUT_NewFrame();
     ImGui::NewFrame();
 
-    // Define the layout
     int windowWidth = glutGet(GLUT_WINDOW_WIDTH);
     int windowHeight = glutGet(GLUT_WINDOW_HEIGHT);
     float offsetY = 0.0f;
 
-    // Set the position and size of the main ImGui window that will hold the others
-    ImGui::SetNextWindowPos(ImVec2(windowWidth * 3 / 4, 0));
-    ImGui::SetNextWindowSize(ImVec2(windowWidth / 4, windowHeight * 3 / 4));
+    ImGui::SetNextWindowPos(ImVec2(static_cast<float>(windowWidth) * 3 / 4, 0.0f));
+    ImGui::SetNextWindowSize(ImVec2(static_cast<float>(windowWidth) / 4, static_cast<float>(windowHeight)));
+
     ImGui::Begin("Debugging Information", nullptr, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse);
 
-    // Render individual ImGui windows one below the other
     if (simulation->getAppState() == AppState::MENU) {
         RenderMenu();
     }
@@ -57,7 +54,6 @@ void ImGuiManager::Render() {
 
     ImGui::End();
 
-    // Render ImGui into the screen
     ImGui::Render();
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }
