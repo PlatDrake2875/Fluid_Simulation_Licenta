@@ -1,0 +1,389 @@
+#version 450
+
+#include "shaders/FluidSimulationKernels.glsl"
+#include "shaders/gridHash.glsl"
+
+// Constants
+const int NumThreads = 64;
+
+// Buffers
+layout(std430, binding = 0) buffer PositionsBuffer { vec2 Positions[]; };
+layout(std430, binding = 1) buffer PredictedPositionsBuffer { vec2 PredictedPositions[]; };
+layout(std430, binding = 2) buffer VelocitiesBuffer { vec2 Velocities[]; };
+layout(std430, binding = 3) buffer DensitiesBuffer { vec2 Densities[]; };
+layout(std430, binding = 4) buffer SpatialIndicesBuffer { uvec3 SpatialIndices[]; };
+layout(std430, binding = 5) buffer SpatialOffsetsBuffer { uint SpatialOffsets[]; };
+layout(std430, binding = 6) buffer DebugBuffer { uint DebugValues[]; };
+
+
+// Uniforms
+// Particle properties
+uniform uint numParticles;
+uniform float deltaTime;
+uniform float smoothingRadius;
+
+// Physical constants
+uniform float gravity;
+uniform float collisionDamping;
+uniform float viscosityStrength;
+
+// Density and pressure
+uniform float targetDensity;
+uniform float pressureMultiplier;
+uniform float nearPressureMultiplier;
+
+// Bounds and obstacles
+uniform vec2 boundsSize;
+uniform vec4 boundingBox;
+uniform vec2 obstacleSize;
+uniform vec2 obstacleCentre;
+
+// Interaction parameters
+uniform vec2 interactionInputPoint;
+uniform float interactionInputStrength;
+uniform float interactionInputRadius;
+
+// Mouse interaction
+uniform bvec2 isXButtonDown; // (1,0) -> Left pressed; (0,1) -> Right pressed
+
+// Debugging
+uniform bool debugEnabled;
+
+// Utility Functions
+float DensityKernel(float dst, float radius) {
+    return SpikyKernelPow2(dst, radius);
+}
+
+float NearDensityKernel(float dst, float radius) {
+    return SpikyKernelPow3(dst, radius);
+}
+
+float DensityDerivative(float dst, float radius) {
+    return DerivativeSpikyPow2(dst, radius);
+}
+
+float NearDensityDerivative(float dst, float radius) {
+    return DerivativeSpikyPow3(dst, radius);
+}
+
+float ViscosityKernel(float dst, float radius) {
+    return SmoothingKernelPoly6(dst, smoothingRadius);
+}
+
+float PressureFromDensity(float density)
+{
+	return (density - targetDensity) * pressureMultiplier;
+}
+
+float NearPressureFromDensity(float nearDensity)
+{
+	return nearPressureMultiplier * nearDensity;
+}
+
+vec2 CalculateDensity(vec2 pos) {
+    vec2 originCell = GetCell2D(pos, smoothingRadius);
+    float sqrRadius = smoothingRadius * smoothingRadius;
+    float density = 0;
+    float nearDensity = 0;
+
+    for (int i = 0; i < 9; i++)
+	{
+		uint hash = HashCell2D(originCell + offsets2D[i]);
+		uint key = KeyFromHash(hash, numParticles);
+		uint currIndex = SpatialOffsets[key];
+    
+        while (currIndex < numParticles)
+		{
+			uvec3 indexData = SpatialIndices[currIndex];
+			currIndex++;
+			// Exit if no longer looking at correct bin
+			if (indexData[2] != key) break;
+			// Skip if hash does not match
+			if (indexData[1] != hash) continue;
+        
+            uint neighborIndex = indexData[0];
+            vec2 neighbourPos = PredictedPositions[neighborIndex];
+            vec2 offsetToNeighbour = neighbourPos - pos;
+            float sqrDstToNeighbour = dot(offsetToNeighbour, offsetToNeighbour);
+
+            // Skip if not within radius
+            if (sqrDstToNeighbour > sqrRadius) continue;
+
+            // Calculate density and near density
+            float dst = sqrt(sqrDstToNeighbour);
+            density += DensityKernel(dst, smoothingRadius);
+            nearDensity += NearDensityKernel(dst, smoothingRadius);
+        }
+    }
+
+    return vec2(density, nearDensity);
+}
+
+void HandleCollisions(uint particleIndex) {
+    vec2 pos = Positions[particleIndex];
+    vec2 vel = Velocities[particleIndex];
+
+    if (pos.x < boundingBox.x) {
+        pos.x = boundingBox.x;
+        vel.x *= -1 * collisionDamping;
+    } else if (pos.x > boundingBox.z) {
+        pos.x = boundingBox.z;
+        vel.x *= -1 * collisionDamping;
+    }
+
+    if (pos.y < boundingBox.y) {
+        pos.y = boundingBox.y;
+        vel.y *= -1 * collisionDamping;
+    } else if (pos.y > boundingBox.w) {
+        pos.y = boundingBox.w;
+        vel.y *= -1 * collisionDamping;
+    }
+
+    float particleRadius = 1.0;
+    ivec2 originCell = GetCell2D(pos, smoothingRadius);
+
+    for (int i = 0; i < 9; i++) {
+        uint hash = HashCell2D(originCell + offsets2D[i]);
+        uint key = KeyFromHash(hash, numParticles);
+        uint currIndex = SpatialOffsets[key];
+
+        while (currIndex < numParticles) {
+            uvec3 indexData = SpatialIndices[currIndex];
+            currIndex++;
+            if (indexData[2] != key) break;
+            if (indexData[1] != hash) continue;
+
+            uint neighborIndex = indexData[0];
+            vec2 otherPos = Positions[neighborIndex];
+            vec2 delta = pos - otherPos;
+            float distance = length(delta);
+
+            if (distance < 2.0 * particleRadius) {
+                vec2 collisionNormal = normalize(delta);
+                float overlap = 2.0 * particleRadius - distance;
+                pos += collisionNormal * (overlap / 2.0);
+                Positions[neighborIndex] -= collisionNormal * (overlap / 2.0);
+
+                vec2 relativeVelocity = vel - Velocities[neighborIndex];
+                float collisionImpulse = dot(relativeVelocity, collisionNormal);
+                vec2 impulse = collisionImpulse * collisionNormal * collisionDamping;
+
+                vel -= impulse;
+                Velocities[neighborIndex] += impulse;
+            }
+        }
+    }
+
+    Positions[particleIndex] = pos;
+    Velocities[particleIndex] = vel;
+}
+
+
+layout(local_size_x = 1024, local_size_y = 1, local_size_z = 1) in;
+vec2 ExternalForces(vec2 pos, vec2 velocity) {
+    // Gravity
+    vec2 gravityAccel = vec2(0, gravity);
+
+    // Input interactions modify gravity proportional to the distance from the center of the point
+    // to the interactionInputRadius
+    if (interactionInputStrength != 0) {
+        vec2 inputPointOffset = interactionInputPoint - pos;
+        if(isXButtonDown[1] == true) inputPointOffset = -inputPointOffset; // Reverse the vector direction from outside to center 
+
+        float sqrDst = dot(inputPointOffset, inputPointOffset);
+        if (sqrDst < interactionInputRadius * interactionInputRadius) {
+            float dst = sqrt(sqrDst);
+            float edgeT = (dst / interactionInputRadius);
+            float centreT = 1 - edgeT;
+            vec2 dirToCentre = inputPointOffset / dst;
+
+            float gravityWeight = 1 - (centreT * clamp(interactionInputStrength / 10, 0.0, 1.0));
+            vec2 accel = gravityAccel * gravityWeight + dirToCentre * centreT * interactionInputStrength;
+            accel -= velocity * centreT;
+            return accel;
+        }
+    }
+
+    return gravityAccel;
+}
+
+layout(local_size_x = 1024, local_size_y = 1, local_size_z = 1) in;
+void UpdateSpatialHashKernel(uint id) {
+    if (id >= numParticles) return;
+
+    DebugValues[id] = id;
+
+    // Reset offsets
+    SpatialOffsets[id] = numParticles;
+
+    // Update index buffer
+    uint index = id;
+    ivec2 cell = GetCell2D(PredictedPositions[index], smoothingRadius);
+    uint hash = HashCell2D(cell);
+    uint key = KeyFromHash(hash, numParticles);
+    SpatialIndices[id] = uvec3(index, hash, key);
+    
+    DebugValues[numParticles + id] = hash;
+}
+
+layout(local_size_x = 1024, local_size_y = 1, local_size_z = 1) in;
+void CalculateDensitiesKernel(uint id) {
+    if (id >= numParticles) return;
+
+    vec2 pos = PredictedPositions[id];
+    vec2 density = CalculateDensity(pos);
+    Densities[id] = density;
+
+    DebugValues[2 * numParticles + id] = floatBitsToUint(density.x);
+    DebugValues[3 * numParticles + id] = floatBitsToUint(density.y);
+}
+
+layout(local_size_x = 1024, local_size_y = 1, local_size_z = 1) in;
+void CalculatePressureForce(uint id) {
+    if (id >= numParticles) return;
+
+    float density = Densities[id][0];
+    float densityNear = Densities[id][1];
+    
+    if (density <= 0.0) {
+        DebugValues[6 * numParticles + id] = floatBitsToUint(-1.0);
+        return;
+    }
+    
+    float pressure = PressureFromDensity(density);
+    float nearPressure = NearPressureFromDensity(densityNear);
+    vec2 pressureForce = vec2(0.0);
+
+    vec2 pos = PredictedPositions[id];
+    float sqrRadius = smoothingRadius * smoothingRadius;
+
+    // Neighbour search
+    for (uint neighbourIndex = 0; neighbourIndex < numParticles; ++neighbourIndex) {
+        // Skip if looking at self
+        if (neighbourIndex == id) continue;
+
+        vec2 neighbourPos = PredictedPositions[neighbourIndex];
+        vec2 offsetToNeighbour = neighbourPos - pos;
+        float sqrDstToNeighbour = dot(offsetToNeighbour, offsetToNeighbour);
+
+        // Skip if not within radius
+        if (sqrDstToNeighbour > sqrRadius) continue;
+
+        // Calculate pressure force
+        float dst = sqrt(sqrDstToNeighbour);
+        if (dst <= 0.0) continue; 
+
+        vec2 dirToNeighbour = offsetToNeighbour / dst;
+
+        float neighbourDensity = Densities[neighbourIndex][0];
+        float neighbourNearDensity = Densities[neighbourIndex][1];
+        
+        if (neighbourDensity <= 0.0) continue;
+
+        float neighbourPressure = PressureFromDensity(neighbourDensity);
+        float neighbourNearPressure = NearPressureFromDensity(neighbourNearDensity);
+
+        float sharedPressure = (pressure + neighbourPressure) * 0.5;
+        float sharedNearPressure = (nearPressure + neighbourNearPressure) * 0.5;
+
+        pressureForce += dirToNeighbour * DensityDerivative(dst, smoothingRadius) * sharedPressure / neighbourDensity;
+        pressureForce += dirToNeighbour * NearDensityDerivative(dst, smoothingRadius) * sharedNearPressure / neighbourNearDensity;
+    }
+
+    if (density > 0.0) {
+        vec2 acceleration = pressureForce / density;
+        Velocities[id] += acceleration * deltaTime;
+    } else {
+        DebugValues[6 * numParticles + id] = floatBitsToUint(-2.0); // Invalid density
+    }
+}
+
+layout(local_size_x = 1024, local_size_y = 1, local_size_z = 1) in;
+void CalculateViscosity(uint id) {
+    if (id >= numParticles) return;
+
+    vec2 pos = PredictedPositions[id];
+    float sqrRadius = smoothingRadius * smoothingRadius;
+
+    vec2 viscosityForce = vec2(0.0);
+    vec2 velocity = Velocities[id];
+
+    for (uint neighbourIndex = 0; neighbourIndex < numParticles; ++neighbourIndex) {
+        // Skip if looking at self
+        if (neighbourIndex == id) continue;
+
+        vec2 neighbourPos = PredictedPositions[neighbourIndex];
+        vec2 offsetToNeighbour = neighbourPos - pos;
+        float sqrDstToNeighbour = dot(offsetToNeighbour, offsetToNeighbour);
+
+        // Skip if not within radius
+        if (sqrDstToNeighbour > sqrRadius) continue;
+
+        float dst = sqrt(sqrDstToNeighbour);
+        if (dst <= 0.0) continue; 
+
+        vec2 neighbourVelocity = Velocities[neighbourIndex];
+        viscosityForce += (neighbourVelocity - velocity) * ViscosityKernel(dst, smoothingRadius);
+    }
+
+    if (isnan(viscosityForce.x) || isnan(viscosityForce.y)) {
+        DebugValues[6 * numParticles + id] = 0xFFFFFFFF; // Debugging particle
+    } else {
+        Velocities[id] += viscosityForce * viscosityStrength * deltaTime;
+    }
+}
+
+layout(local_size_x = 1024, local_size_y = 1, local_size_z = 1) in;
+void UpdatePositionsKernel(uint id) {
+    if (id >= numParticles) return;
+
+    Positions[id] += Velocities[id] * deltaTime;
+    HandleCollisions(id);
+    
+    DebugValues[4 * numParticles + id] = floatBitsToUint(Positions[id].x);
+    DebugValues[5 * numParticles + id] = floatBitsToUint(Positions[id].y);
+}
+
+
+void WriteDebugValues(uint id, vec2 pos, vec2 vel, vec2 predPos, uint marker) {
+    if (!debugEnabled) return;
+
+    uint idx = id * 8;
+    DebugValues[idx] = id;
+    DebugValues[idx + 1] = floatBitsToUint(pos.x);
+    DebugValues[idx + 2] = floatBitsToUint(pos.y);
+    DebugValues[idx + 3] = floatBitsToUint(vel.x);
+    DebugValues[idx + 4] = floatBitsToUint(vel.y);
+    DebugValues[idx + 5] = floatBitsToUint(predPos.x);
+    DebugValues[idx + 6] = floatBitsToUint(predPos.y);
+    DebugValues[idx + 7] = marker;
+}
+
+void main() {
+    uint id = gl_GlobalInvocationID.x;
+
+    if (debugEnabled && id < numParticles) {
+        WriteDebugValues(id, Positions[id], Velocities[id], PredictedPositions[id], 1);
+    }
+
+    // Apply external forces and predict positions
+    if (id < numParticles) {
+        Velocities[id] += ExternalForces(Positions[id], Velocities[id]) * deltaTime;
+        const float predictionFactor = 1.0 / 120.0;
+        PredictedPositions[id] = Positions[id] + Velocities[id] * predictionFactor;
+        if (debugEnabled) WriteDebugValues(id, Positions[id], Velocities[id], PredictedPositions[id], 2);
+    }
+
+    barrier();
+
+    UpdateSpatialHashKernel(id);
+
+    CalculateDensitiesKernel(id);
+    CalculatePressureForce(id);
+    CalculateViscosity(id);
+    UpdatePositionsKernel(id);
+
+    if (debugEnabled && id < numParticles) {
+        WriteDebugValues(id, Positions[id], Velocities[id], PredictedPositions[id], 3);
+    }
+}

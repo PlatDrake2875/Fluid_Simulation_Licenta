@@ -1,0 +1,74 @@
+#version 450
+
+layout(local_size_x = 128, local_size_y = 1, local_size_z = 1) in;
+
+struct Entry {
+    uint originalIndex;
+    uint hash;
+    uint key;
+};
+
+// Buffers
+layout(std430, binding = 0) buffer EntriesBuffer {
+    Entry Entries[];
+};
+layout(std430, binding = 1) buffer OffsetsBuffer {
+    uint Offsets[];
+};
+
+// Uniforms
+uniform uint numEntries;
+uniform uint groupWidth;
+uniform uint groupHeight;
+uniform uint stepIndex;
+
+// Sort the given entries by their keys (smallest to largest)
+// This is done using bitonic merge sort, and takes multiple iterations
+void SortKernel(uint id) {
+    if (id >= numEntries) return;
+
+    uint hIndex = id & (groupWidth - 1);
+    uint indexLeft = hIndex + (groupHeight + 1) * (id / groupWidth);
+    uint rightStepSize = stepIndex == 0 ? groupHeight - 2 * hIndex : (groupHeight + 1) / 2;
+    uint indexRight = indexLeft + rightStepSize;
+
+    // Exit if out of bounds (for non-power of 2 input sizes)
+    if (indexRight >= numEntries) return;
+
+    uint valueLeft = Entries[indexLeft].key;
+    uint valueRight = Entries[indexRight].key;
+
+    // Swap entries if value is descending
+    if (valueLeft > valueRight) {
+        Entry temp = Entries[indexLeft];
+        Entries[indexLeft] = Entries[indexRight];
+        Entries[indexRight] = temp;
+    }
+}
+
+// Calculate offsets into the sorted Entries buffer (used for spatial hashing).
+void CalculateOffsetsKernel(uint id) {
+    if (id >= numEntries) return;
+
+    uint null = numEntries;
+
+    uint key = Entries[id].key;
+    uint keyPrev = id == 0 ? null : Entries[id - 1].key;
+
+    if (key != keyPrev) {
+        Offsets[key] = id;
+    }
+}
+
+void main() {
+    uint id = gl_GlobalInvocationID.x;
+
+    // Call the appropriate kernel based on the invocation
+    // SortKernel
+    if (stepIndex != uint(-1)) {
+        SortKernel(id);
+    } else {
+        // CalculateOffsetsKernel
+        CalculateOffsetsKernel(id);
+    }
+}
