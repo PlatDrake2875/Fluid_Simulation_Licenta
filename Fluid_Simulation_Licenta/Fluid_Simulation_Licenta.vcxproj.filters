@@ -88,6 +88,36 @@
     <Filter Include="imgui">
       <UniqueIdentifier>{b92b536a-4e5d-4194-8b39-237e7dc44c2f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\shaders\compute">
+      <UniqueIdentifier>{b66580d7-3706-4751-af3b-783e49546a89}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\shaders\fragment">
+      <UniqueIdentifier>{1a8994a5-aeb6-4b11-9a98-fd27402e22c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\shaders\vertex">
+      <UniqueIdentifier>{e4f1c24d-eed7-484e-98fd-aa98a9466f10}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\shaders\geometry">
+      <UniqueIdentifier>{a5b73b88-ea32-4bbf-b9ea-4acc30e0f32b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\shaders">
+      <UniqueIdentifier>{e4f3b674-d90b-48cb-823c-a1a6915385ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\particles">
+      <UniqueIdentifier>{f416f5ae-3b3d-4cdc-b7af-e9f0ebc9567b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\init">
+      <UniqueIdentifier>{a91572ac-c172-462e-b5d8-0445de3379fb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\particles">
+      <UniqueIdentifier>{1991f9ea-08ac-42b9-8519-17b6dee96710}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\shaders">
+      <UniqueIdentifier>{fb50c7be-75c1-429b-9ce5-7ab2d6e5fb7e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\init">
+      <UniqueIdentifier>{a81d8fab-3e43-4570-81ec-38ff4136168b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -108,40 +138,10 @@
     <ClCompile Include="Simulation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ComputeShader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="FluidSimulationApp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GlewInitializer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GlutInitializer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ImGuiManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ParticleBuffers.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ParticleGenerator.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ParticleRenderer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ParticleSystem.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Shader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ShaderManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ShaderPreprocessor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="imgui\imgui.cpp">
@@ -167,6 +167,36 @@
     </ClCompile>
     <ClCompile Include="imgui\imgui_widgets.cpp">
       <Filter>imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="ComputeShader.cpp">
+      <Filter>Source Files\shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderManager.cpp">
+      <Filter>Source Files\shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderPreprocessor.cpp">
+      <Filter>Source Files\shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader.cpp">
+      <Filter>Source Files\shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticleBuffers.cpp">
+      <Filter>Source Files\particles</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticleGenerator.cpp">
+      <Filter>Source Files\particles</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticleRenderer.cpp">
+      <Filter>Source Files\particles</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticleSystem.cpp">
+      <Filter>Source Files\particles</Filter>
+    </ClCompile>
+    <ClCompile Include="GlewInitializer.cpp">
+      <Filter>Source Files\init</Filter>
+    </ClCompile>
+    <ClCompile Include="GlutInitializer.cpp">
+      <Filter>Source Files\init</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1061,49 +1091,10 @@
     <ClInclude Include="include\glm\simd\vector_relational.h">
       <Filter>Header Files\template-built-ins\glm\simd</Filter>
     </ClInclude>
-    <ClInclude Include="Simulation.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ComputeShader.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="FluidSimulationApp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GlewInitializer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GlutInitializer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ImGuiManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ParticleBuffers.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ParticleGenerator.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="resource.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ParticleData.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ParticleRenderer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ParticleSystem.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Shader.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ShaderManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ShaderPreprocessor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="imgui\imconfig.h">
@@ -1135,6 +1126,42 @@
     </ClInclude>
     <ClInclude Include="imgui\imstb_truetype.h">
       <Filter>imgui</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleBuffers.h">
+      <Filter>Header Files\particles</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleData.h">
+      <Filter>Header Files\particles</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleGenerator.h">
+      <Filter>Header Files\particles</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleRenderer.h">
+      <Filter>Header Files\particles</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleSystem.h">
+      <Filter>Header Files\particles</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader.h">
+      <Filter>Header Files\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderManager.h">
+      <Filter>Header Files\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderPreprocessor.h">
+      <Filter>Header Files\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="Simulation.h">
+      <Filter>Header Files\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="ComputeShader.h">
+      <Filter>Header Files\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="GlewInitializer.h">
+      <Filter>Header Files\init</Filter>
+    </ClInclude>
+    <ClInclude Include="GlutInitializer.h">
+      <Filter>Header Files\init</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1612,31 +1639,28 @@
       <Filter>Resource Files\template-built-ins\DLLs\64b</Filter>
     </None>
     <None Include="shaders\BitonicMergeSort.comp">
-      <Filter>Resource Files\shaders</Filter>
-    </None>
-    <None Include="shaders\example.frag">
-      <Filter>Resource Files\shaders</Filter>
-    </None>
-    <None Include="shaders\example.vert">
-      <Filter>Resource Files\shaders</Filter>
+      <Filter>Resource Files\shaders\compute</Filter>
     </None>
     <None Include="shaders\FluidSimulationKernels.glsl">
-      <Filter>Resource Files\shaders</Filter>
+      <Filter>Resource Files\shaders\compute</Filter>
     </None>
     <None Include="shaders\FluidSimulator.comp">
-      <Filter>Resource Files\shaders</Filter>
+      <Filter>Resource Files\shaders\compute</Filter>
     </None>
-    <None Include="shaders\FluidSimulator_Adding_Hashing.comp">
-      <Filter>Resource Files\shaders</Filter>
+    <None Include="shaders\FluidSimulatorHash.comp">
+      <Filter>Resource Files\shaders\compute</Filter>
     </None>
     <None Include="shaders\gridHash.glsl">
-      <Filter>Resource Files\shaders</Filter>
+      <Filter>Resource Files\shaders\compute</Filter>
+    </None>
+    <None Include="shaders\example.vert">
+      <Filter>Resource Files\shaders\vertex</Filter>
+    </None>
+    <None Include="shaders\example.frag">
+      <Filter>Resource Files\shaders\fragment</Filter>
     </None>
     <None Include="shaders\particle.geom">
-      <Filter>Resource Files\shaders</Filter>
-    </None>
-    <None Include="shaders\utilityFunctions.glsl">
-      <Filter>Resource Files\shaders</Filter>
+      <Filter>Resource Files\shaders\geometry</Filter>
     </None>
   </ItemGroup>
 </Project>

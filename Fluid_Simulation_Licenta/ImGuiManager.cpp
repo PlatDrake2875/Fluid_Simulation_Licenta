@@ -40,7 +40,7 @@ void ImGuiManager::Render() {
     float offsetY = 0.0f;
 
     ImGui::SetNextWindowPos(ImVec2(static_cast<float>(windowWidth) * 3 / 4, 0.0f));
-    ImGui::SetNextWindowSize(ImVec2(static_cast<float>(windowWidth) / 4, static_cast<float>(windowHeight)));
+    ImGui::SetNextWindowSize(ImVec2(static_cast<float>(windowWidth) / 4, static_cast<float>(windowHeight) * 1 / 4));
 
     ImGui::Begin("Debugging Information", nullptr, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse);
 

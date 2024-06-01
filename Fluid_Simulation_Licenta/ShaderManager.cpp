@@ -74,8 +74,8 @@ void ShaderManager::RenderImGui() {
     int windowWidth = glutGet(GLUT_WINDOW_WIDTH);
     int windowHeight = glutGet(GLUT_WINDOW_HEIGHT);
 
-    ImGui::SetNextWindowPos(ImVec2(windowWidth * 3 / 4, 300)); 
-    ImGui::SetNextWindowSize(ImVec2(windowWidth / 4, windowHeight - 300), ImGuiCond_Always); 
+    ImGui::SetNextWindowPos(ImVec2(static_cast<float>(windowWidth) * 3 / 4, static_cast<float>(windowHeight) * 1 / 4));
+    ImGui::SetNextWindowSize(ImVec2(static_cast<float>(windowWidth) / 4, static_cast<float>(windowHeight) * 3 / 4), ImGuiCond_Always);
     ImGui::Begin("Shader Manager", nullptr, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse);
 
     RenderComputeShaderControls();
@@ -154,6 +154,13 @@ void ShaderManager::DrawInteractionRadiusCircle() {
 
     const int numSegments = 100;
     const float angleIncrement = 2.0f * static_cast<float>(M_PI) / numSegments;
+
+    // Map interactionInputStrength to a color range (e.g., from blue to red)
+    float red = std::min(1.0f, interactionInputStrength / 30.0f); // Assuming max strength is 30
+    float blue = 1.0f - red;
+    float green = 0.0f; // No green component in this example
+
+    glColor3f(red, green, blue); // Set the color
 
     glBegin(GL_LINE_LOOP);
 
