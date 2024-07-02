@@ -1,7 +1,7 @@
 #version 450
 
 #include "shaders/FluidSimulationKernels.glsl"
-#include "shaders/gridHash.glsl"
+#include "shaders/gridHash_3D.glsl"
 
 // Constants
 const int NumThreads = 64;
@@ -24,8 +24,7 @@ uniform float smoothingRadius;
 
 // Physical constants
 uniform float gravity;
-uniform float 
-;
+uniform float collisionDamping;
 uniform float viscosityStrength;
 
 // Density and pressure

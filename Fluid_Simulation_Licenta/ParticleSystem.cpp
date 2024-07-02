@@ -3,7 +3,8 @@
 ParticleSystem::ParticleSystem(ShaderManager* shaderManager) : shaderManager(shaderManager), particleGenerator(nullptr), particleRenderer(nullptr) {
     InitParticleGenerator();
     ParticleGenerator::ParticleSpawnData spawnData = particleGenerator->GetSpawnData();
-    particleRenderer = new ParticleRenderer(particleGenerator->GetParticleCount(), shaderManager->GetShader(), shaderManager->GetComputeShader(), spawnData);
+    GPUSort* gpuSorter = new GPUSort();
+    particleRenderer = new ParticleRenderer(particleGenerator->GetParticleCount(), shaderManager->GetShader(), shaderManager->GetComputeShader(), gpuSorter, spawnData);
 }
 
 ParticleSystem::~ParticleSystem() {
@@ -20,12 +21,19 @@ void ParticleSystem::InitParticleGenerator() {
         glm::vec2(10.0f, 10.0f),
         glm::vec2(screenWidth / 2, screenHeight / 2),
         glm::vec2(screenWidth, screenHeight),
-        0.5f
+        0.2f
     );
 }
 
 void ParticleSystem::UpdateParticles() {
-    particleRenderer->UpdateParticles();
+    if (Type == SimulationType::SLOW){
+        //std::cout << "slow\n";
+        particleRenderer->UpdateParticlesSlow();
+    }
+    else
+    {
+        particleRenderer->UpdateParticlesHash();
+    }
 }
 
 void ParticleSystem::DrawParticles() {

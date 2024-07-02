@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -185,11 +185,13 @@ xcopy /y /d "$(ProjectDir)lib\x64\SOIL\*.dll" "$(OutDir)" &amp;</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="ComputeShader.cpp" />
-    <ClCompile Include="FluidSimulationApp.cpp" />
     <ClCompile Include="GlewInitializer.cpp" />
     <ClCompile Include="GlutInitializer.cpp" />
+    <ClCompile Include="GPUSort.cpp" />
     <ClCompile Include="ImGuiManager.cpp" />
+    <ClCompile Include="ImGuiManager3D.cpp" />
     <ClCompile Include="imgui\imgui.cpp" />
     <ClCompile Include="imgui\imgui_demo.cpp" />
     <ClCompile Include="imgui\imgui_draw.cpp" />
@@ -200,24 +202,37 @@ xcopy /y /d "$(ProjectDir)lib\x64\SOIL\*.dll" "$(OutDir)" &amp;</Command>
     <ClCompile Include="imgui\imgui_widgets.cpp" />
     <ClCompile Include="include\glm\detail\glm.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Mesh.cpp" />
+    <ClCompile Include="Movement.cpp" />
     <ClCompile Include="ParticleBuffers.cpp" />
+    <ClCompile Include="ParticleBuffers3D.cpp" />
     <ClCompile Include="ParticleGenerator.cpp" />
+    <ClCompile Include="ParticleGenerator3D.cpp" />
     <ClCompile Include="ParticleRenderer.cpp" />
+    <ClCompile Include="ParticleRenderer3D.cpp" />
     <ClCompile Include="ParticleSystem.cpp" />
+    <ClCompile Include="ParticleSystem3D.cpp" />
+    <ClCompile Include="SceneBuilder.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="ShaderManager.cpp" />
+    <ClCompile Include="ShaderManager3D.cpp" />
     <ClCompile Include="ShaderPreprocessor.cpp" />
     <ClCompile Include="Simulation.cpp" />
+    <ClCompile Include="Simulation3D.cpp" />
+    <ClCompile Include="SimulationFactory.cpp" />
     <ClCompile Include="src\glad.c" />
     <ClCompile Include="src\imageloader.cpp" />
     <ClCompile Include="src\loadShaders.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AppState.h" />
+    <ClInclude Include="Camera.h" />
     <ClInclude Include="ComputeShader.h" />
-    <ClInclude Include="FluidSimulationApp.h" />
     <ClInclude Include="GlewInitializer.h" />
     <ClInclude Include="GlutInitializer.h" />
+    <ClInclude Include="GPUSort.h" />
     <ClInclude Include="ImGuiManager.h" />
+    <ClInclude Include="ImGuiManager3D.h" />
     <ClInclude Include="imgui\imconfig.h" />
     <ClInclude Include="imgui\imgui.h" />
     <ClInclude Include="imgui\imgui_impl_glfw.h" />
@@ -525,15 +540,26 @@ xcopy /y /d "$(ProjectDir)lib\x64\SOIL\*.dll" "$(OutDir)" &amp;</Command>
     <ClInclude Include="include\KHR\khrplatform.h" />
     <ClInclude Include="include\loadShaders.h" />
     <ClInclude Include="include\SOIL.h" />
+    <ClInclude Include="Mesh.h" />
+    <ClInclude Include="Movement.h" />
     <ClInclude Include="ParticleBuffers.h" />
+    <ClInclude Include="ParticleBuffers3D.h" />
     <ClInclude Include="ParticleData.h" />
     <ClInclude Include="ParticleGenerator.h" />
+    <ClInclude Include="ParticleGenerator3D.h" />
     <ClInclude Include="ParticleRenderer.h" />
+    <ClInclude Include="ParticleRenderer3D.h" />
     <ClInclude Include="ParticleSystem.h" />
+    <ClInclude Include="ParticleSystem3D.h" />
+    <ClInclude Include="SceneBuilder.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="ShaderManager.h" />
+    <ClInclude Include="ShaderManager3D.h" />
     <ClInclude Include="ShaderPreprocessor.h" />
+    <ClInclude Include="SimType.h" />
     <ClInclude Include="Simulation.h" />
+    <ClInclude Include="Simulation3D.h" />
+    <ClInclude Include="SimulationFactory.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="include\glm\CMakeLists.txt" />
@@ -695,14 +721,20 @@ xcopy /y /d "$(ProjectDir)lib\x64\SOIL\*.dll" "$(OutDir)" &amp;</Command>
     <None Include="lib\x64\GL\glew32.dll" />
     <None Include="lib\x64\GL\glew32s.dll" />
     <None Include="lib\x64\SOIL\SOIL.dll" />
+    <None Include="shaders\3D.frag" />
+    <None Include="shaders\3D.vert" />
     <None Include="shaders\BitonicMergeSort.comp" />
-    <None Include="shaders\example.frag" />
-    <None Include="shaders\example.vert" />
+    <None Include="shaders\2D.frag" />
+    <None Include="shaders\2D.vert" />
     <None Include="shaders\FluidSimulationKernels.glsl" />
     <None Include="shaders\FluidSimulator.comp" />
     <None Include="shaders\FluidSimulatorHash.comp" />
+    <None Include="shaders\FluidSimulatorHash_3D.comp" />
+    <None Include="shaders\FluidSimulator_3D.comp" />
     <None Include="shaders\gridHash.glsl" />
+    <None Include="shaders\gridHash_3D.glsl" />
     <None Include="shaders\particle.geom" />
+    <None Include="shaders\particle_3D.geom" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

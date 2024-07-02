@@ -13,14 +13,16 @@
 #include "ParticleGenerator.h"
 #include "ComputeShader.h"
 #include "ParticleData.h"
+#include "GPUSort.h"
 
 
 class ParticleRenderer {
 public:
-    ParticleRenderer(size_t particleCount, Shader* shader, ComputeShader* computeShader, const ParticleGenerator::ParticleSpawnData& spawnData);
+    ParticleRenderer(size_t particleCount, Shader* shader, ComputeShader* computeShader, GPUSort* gpuSorter, const ParticleGenerator::ParticleSpawnData& spawnData);
     ~ParticleRenderer();
 
-    void UpdateParticles();
+    void UpdateParticlesSlow();
+    void UpdateParticlesHash();
     void useComputeShader();
     bool validateParticleData(GLuint particleCount, GLuint numThreads);
     void addParticles(const std::vector<glm::vec2>& newPositions);
@@ -38,6 +40,7 @@ public:
 private:
     Shader* shader;
     ComputeShader* computeShader;
+    GPUSort* gpuSorter;
     ParticleBuffers* particleBuffers;
     ParticleData particleData;
     GLuint VAO, VBO;

@@ -23,8 +23,9 @@ FluidSimulationApp::FluidSimulationApp(int argc, char** argv)
     InitParticleGenerator();
     InitComputeShader();
 
+    gpuSorter = new GPUSort();
     ParticleGenerator::ParticleSpawnData spawnData = particleGenerator->GetSpawnData();
-    particleRenderer = new ParticleRenderer(particleGenerator->GetParticleCount(), shader, computeShader, spawnData);
+    particleRenderer = new ParticleRenderer(particleGenerator->GetParticleCount(), shader, computeShader, gpuSorter, spawnData);
 
     instance = this;
 }

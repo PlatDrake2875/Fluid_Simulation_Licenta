@@ -44,6 +44,7 @@ public:
 
 private:
     ShaderPreprocessor preprocessor;
+    std::string computePath;
 
     void QueryMaxWorkGroupAndComputeUnits(GLint* maxWorkGroupCount, GLint* maxWorkGroupSize, GLint& maxComputeWorkGroupInvocations) const;
 

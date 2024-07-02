@@ -69,14 +69,21 @@ void ParticleGenerator::CalculateGridDimensions(int& numX, int& numY) const {
 glm::vec2 ParticleGenerator::CalculateSpawnPosition(int x, int y, int numX, int numY, std::mt19937& rng,
     std::uniform_real_distribution<float>& dist, std::uniform_real_distribution<float>& angleDist) const {
 
+    // Calculate normalized position (tx, ty) in the grid based on the index (x, y) and (numX, numY)
     float tx = numX <= 1 ? 0.5f : static_cast<float>(x) / (numX - 1);
     float ty = numY <= 1 ? 0.5f : static_cast<float>(y) / (numY - 1);
 
+    // Generate a random angle for jitter direction
     float angle = angleDist(rng);
     glm::vec2 dir(std::cos(angle), std::sin(angle));
+
+    // Calculate jitter offset based on the random direction and magnitude
     glm::vec2 jitter = dir * jitterStr * (dist(rng) - 0.5f);
 
+    // Calculate the initial spawn position in the grid and apply jitter
     glm::vec2 spawnPos = glm::vec2(tx * spawnSize.x, ty * spawnSize.y) + jitter;
+
+    // Clamp the spawn position to be within the spawn size bounds and center it around spawnCentre
     spawnPos = glm::clamp(spawnPos, glm::vec2(0.0f), spawnSize) + (spawnCentre - spawnSize / 2.0f);
 
     return spawnPos;

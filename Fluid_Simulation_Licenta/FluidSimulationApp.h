@@ -35,6 +35,7 @@ private:
     Shader* shader;
     ComputeShader* computeShader;
     ParticleGenerator* particleGenerator;
+    GPUSort* gpuSorter;
     ParticleRenderer* particleRenderer;
     glm::mat4 projection;
 

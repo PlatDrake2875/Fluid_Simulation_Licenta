@@ -25,7 +25,6 @@ public:
     ParticleGenerator(int particleCount, glm::vec2 initialVelocity, glm::vec2 spawnCentre, glm::vec2 spawnSize, float jitterStr);
 
     ParticleSpawnData GetSpawnData();
-    void DrawParticles(Shader* shader);
     int GetParticleCount() const;
 
 private:

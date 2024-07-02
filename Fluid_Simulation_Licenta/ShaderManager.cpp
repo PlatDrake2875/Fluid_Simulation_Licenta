@@ -1,5 +1,4 @@
 #include "ShaderManager.h"
-#include <GL/freeglut_std.h>
 
 ShaderManager::ShaderManager() : projection(glm::mat4(0.0f)), shader(nullptr), computeShader(nullptr) {}
 
@@ -13,11 +12,11 @@ void ShaderManager::SetupShaders() {
     int height = 768;
 
     SetupGraphicsShader(width, height);
-    SetupComputeShader();
+    SetupComputeShader(currentComputeShader);
 }
 
 void ShaderManager::SetupGraphicsShader(int width, int height) {
-    shader = new Shader("shaders/example.vert", "shaders/example.frag", "");
+    shader = new Shader("shaders/2D.vert", "shaders/2D.frag", "");
     glViewport(0, 0, width, height);
     projection = glm::ortho(0.0f, static_cast<float>(width), static_cast<float>(height), 0.0f, -1.0f, 1.0f);
 
@@ -26,8 +25,12 @@ void ShaderManager::SetupGraphicsShader(int width, int height) {
     shader->setFloat("maxSpeed", 50.0f);
 }
 
-void ShaderManager::SetupComputeShader() {
-    computeShader = new ComputeShader("shaders/FluidSimulator.comp");
+void ShaderManager::SetupComputeShader(const std::string& shaderFile) {
+    if (computeShader) {
+        Simulation::resetSimulationFlag = true;
+        delete computeShader;
+    }
+    computeShader = new ComputeShader("shaders/" + shaderFile);
     computeShader->use();
 
     ApplyComputeShaderSettings();
@@ -50,9 +53,9 @@ void ShaderManager::ApplyComputeShaderSettings() {
     computeShader->setFloat("interactionInputRadius", interactionInputRadius);
     computeShader->setFloat("Poly6ScalingFactor", 315.0f / (64.0f * static_cast<float>(M_PI) * powf(1.0f, 9.0f)));
     computeShader->setFloat("SpikyPow3ScalingFactor", 15.0f / (static_cast<float>(M_PI) * powf(1.0f, 6.0f)));
-    computeShader->setFloat("SpikyPow2ScalingFactor", -45.0f / (static_cast<float>(M_PI) * powf(1.0f, 6.0f)));
-    computeShader->setFloat("SpikyPow3DerivativeScalingFactor", -15.0f / (static_cast<float>(M_PI) * powf(1.0f, 6.0f)));
-    computeShader->setFloat("SpikyPow2DerivativeScalingFactor", -45.0f / (static_cast<float>(M_PI) * powf(1.0f, 6.0f)));
+    computeShader->setFloat("SpikyPow2ScalingFactor", 45.0f / (static_cast<float>(M_PI) * powf(1.0f, 6.0f)));
+    computeShader->setFloat("SpikyPow3DerivativeScalingFactor", -45.0f / (static_cast<float>(M_PI) * powf(1.0f, 6.0f)));
+    computeShader->setFloat("SpikyPow2DerivativeScalingFactor", -135.0f / (static_cast<float>(M_PI) * powf(1.0f, 6.0f)));
 
     computeShader->setBool("debugEnabled", false);
 }
@@ -77,6 +80,14 @@ void ShaderManager::RenderImGui() {
     ImGui::SetNextWindowPos(ImVec2(static_cast<float>(windowWidth) * 3 / 4, static_cast<float>(windowHeight) * 1 / 4));
     ImGui::SetNextWindowSize(ImVec2(static_cast<float>(windowWidth) / 4, static_cast<float>(windowHeight) * 3 / 4), ImGuiCond_Always);
     ImGui::Begin("Shader Manager", nullptr, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse);
+
+    static const char* shaderOptions[] = { "SPH (slow)", "SPH (hashing)" };
+    static int currentShaderIndex = 0;
+
+    if (ImGui::Combo("Compute Shader", &currentShaderIndex, shaderOptions, IM_ARRAYSIZE(shaderOptions))) {
+        const char* selectedShader = (currentShaderIndex == 0) ? "FluidSimulator.comp" : "FluidSimulatorHash.comp";
+        SetupComputeShader(selectedShader);
+    }
 
     RenderComputeShaderControls();
 
@@ -155,14 +166,8 @@ void ShaderManager::DrawInteractionRadiusCircle() {
     const int numSegments = 100;
     const float angleIncrement = 2.0f * static_cast<float>(M_PI) / numSegments;
 
-    // Map interactionInputStrength to a color range (e.g., from blue to red)
-    float red = std::min(1.0f, interactionInputStrength / 30.0f); // Assuming max strength is 30
-    float blue = 1.0f - red;
-    float green = 0.0f; // No green component in this example
-
-    glColor3f(red, green, blue); // Set the color
-
     glBegin(GL_LINE_LOOP);
+
 
     for (int i = 0; i < numSegments; ++i) {
         float angle = i * angleIncrement;
@@ -170,6 +175,8 @@ void ShaderManager::DrawInteractionRadiusCircle() {
         float y = interactionInputPoint.y + interactionInputRadius * sin(angle);
         glVertex2f(x, y);
     }
+
+    glVertex2f(interactionInputPoint.x + interactionInputRadius, interactionInputPoint.y);
 
     glEnd();
 }

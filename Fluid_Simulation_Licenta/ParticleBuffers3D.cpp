@@ -1,11 +1,11 @@
-#include "ParticleBuffers.h"
+#include "ParticleBuffers3D.h"
 
-ParticleBuffers::ParticleBuffers(size_t particleCount, ComputeShader* computeShdaer)
+ParticleBuffers3D::ParticleBuffers3D(size_t particleCount, ComputeShader* computeShader)
     : particleCount(particleCount), computeShader(computeShader) {
     InitBuffers(particleCount);
 }
 
-ParticleBuffers::~ParticleBuffers() {
+ParticleBuffers3D::~ParticleBuffers3D() {
     glDeleteBuffers(1, &positionsBuffer);
     glDeleteBuffers(1, &predictedPositionsBuffer);
     glDeleteBuffers(1, &velocitiesBuffer);
@@ -15,9 +15,8 @@ ParticleBuffers::~ParticleBuffers() {
     glDeleteBuffers(1, &debugBuffer);
 }
 
-void ParticleBuffers::InitBuffers(size_t particleCount) {
+void ParticleBuffers3D::InitBuffers(size_t particleCount) {
     this->particleCount = particleCount;
-//  useComputeShader();
     std::cout << "Initializing buffers..." << std::endl;
 
     if (!glewIsSupported("GL_VERSION_4_3")) {
@@ -42,9 +41,9 @@ void ParticleBuffers::InitBuffers(size_t particleCount) {
         CheckGLError("BindBase " + bufferName + "Buffer");
         };
 
-    initBuffer(positionsBuffer, 0, particleCount * sizeof(glm::vec2), "positions");
-    initBuffer(predictedPositionsBuffer, 1, particleCount * sizeof(glm::vec2), "predictedPositions");
-    initBuffer(velocitiesBuffer, 2, particleCount * sizeof(glm::vec2), "velocities");
+    initBuffer(positionsBuffer, 0, particleCount * sizeof(glm::vec3), "positions");
+    initBuffer(predictedPositionsBuffer, 1, particleCount * sizeof(glm::vec3), "predictedPositions");
+    initBuffer(velocitiesBuffer, 2, particleCount * sizeof(glm::vec3), "velocities");
     initBuffer(densitiesBuffer, 3, particleCount * sizeof(glm::vec2), "densities");
     initBuffer(spatialIndicesBuffer, 4, particleCount * sizeof(glm::uvec3), "spatialIndices");
     initBuffer(spatialOffsetsBuffer, 5, particleCount * sizeof(glm::uint), "spatialOffsets");
@@ -54,12 +53,10 @@ void ParticleBuffers::InitBuffers(size_t particleCount) {
     std::cout << "Buffers initialized successfully." << std::endl;
 }
 
-
-void ParticleBuffers::UpdateData(const std::vector<glm::vec2>& positions, const std::vector<glm::vec2>& velocities, const std::vector<glm::vec2>& predictedPositions, const std::vector<glm::vec2>& densities) {
-//  useComputeShader();
-    auto updateBuffer = [&](GLuint buffer, const std::vector<glm::vec2>& data, const std::string& errorMsg) {
+void ParticleBuffers3D::UpdateData(const std::vector<glm::vec3>& positions, const std::vector<glm::vec3>& velocities, const std::vector<glm::vec3>& predictedPositions, const std::vector<glm::vec2>& densities) {
+    auto updateBuffer = [&](GLuint buffer, const auto& data, const std::string& errorMsg) {
         glBindBuffer(GL_SHADER_STORAGE_BUFFER, buffer);
-        glBufferSubData(GL_SHADER_STORAGE_BUFFER, 0, data.size() * sizeof(glm::vec2), data.data());
+        glBufferSubData(GL_SHADER_STORAGE_BUFFER, 0, data.size() * sizeof(data[0]), data.data());
         CheckGLError(errorMsg);
         };
 
@@ -71,8 +68,7 @@ void ParticleBuffers::UpdateData(const std::vector<glm::vec2>& positions, const 
     glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 }
 
-void ParticleBuffers::UpdateSpatialData(const std::vector<glm::uvec3>& spatialIndices, const std::vector<glm::uint>& spatialOffsets) {
-//  useComputeShader();
+void ParticleBuffers3D::UpdateSpatialData(const std::vector<glm::uvec3>& spatialIndices, const std::vector<glm::uint>& spatialOffsets) {
     auto updateBuffer = [&](GLuint buffer, const auto& data, const std::string& errorMsg) {
         using ValueType = typename std::decay<decltype(data[0])>::type;
         glBindBuffer(GL_SHADER_STORAGE_BUFFER, buffer);
@@ -86,9 +82,7 @@ void ParticleBuffers::UpdateSpatialData(const std::vector<glm::uvec3>& spatialIn
     glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 }
 
-
-void ParticleBuffers::UpdateAllBuffers(const ParticleData& particleData) {
-//  useComputeShader();
+void ParticleBuffers3D::UpdateAllBuffers(const ParticleData3D& particleData) {
     auto updateBuffer = [&](GLuint buffer, const auto& data, const std::string& errorMsg) {
         glBindBuffer(GL_SHADER_STORAGE_BUFFER, buffer);
         glBufferData(GL_SHADER_STORAGE_BUFFER, data.size() * sizeof(data[0]), data.data(), GL_DYNAMIC_DRAW);
@@ -105,19 +99,18 @@ void ParticleBuffers::UpdateAllBuffers(const ParticleData& particleData) {
     glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 }
 
-
-void ParticleBuffers::RetrieveData(std::vector<glm::vec2>& positions, std::vector<glm::vec2>& velocities, std::vector<glm::vec2>& predictedPositions, std::vector<glm::vec2>& densities) {
-//  useComputeShader();
+void ParticleBuffers3D::RetrieveData(std::vector<glm::vec3>& positions, std::vector<glm::vec3>& velocities, std::vector<glm::vec3>& predictedPositions, std::vector<glm::vec2>& densities) {
     positions.resize(particleCount);
     velocities.resize(particleCount);
     predictedPositions.resize(particleCount);
     densities.resize(particleCount);
 
-    auto retrieveBufferData = [this](GLuint buffer, std::vector<glm::vec2>& data, const std::string& bufferName) {
+    auto retrieveBufferData = [this](GLuint buffer, auto& data, const std::string& bufferName) {
+        using ValueType = typename std::remove_reference<decltype(data)>::type::value_type;
         glBindBuffer(GL_SHADER_STORAGE_BUFFER, buffer);
-        glm::vec2* ptr = (glm::vec2*)glMapBufferRange(GL_SHADER_STORAGE_BUFFER, 0, particleCount * sizeof(glm::vec2), GL_MAP_READ_BIT);
+        ValueType* ptr = (ValueType*)glMapBufferRange(GL_SHADER_STORAGE_BUFFER, 0, data.size() * sizeof(ValueType), GL_MAP_READ_BIT);
         if (ptr) {
-            std::copy(ptr, ptr + particleCount, data.begin());
+            std::copy(ptr, ptr + data.size(), data.begin());
             glUnmapBuffer(GL_SHADER_STORAGE_BUFFER);
         }
         else {
@@ -134,9 +127,7 @@ void ParticleBuffers::RetrieveData(std::vector<glm::vec2>& positions, std::vecto
     glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 }
 
-
-void ParticleBuffers::RetrieveSpatialData(std::vector<glm::uvec3>& spatialIndices, std::vector<glm::uint>& spatialOffsets) {
-//  useComputeShader();
+void ParticleBuffers3D::RetrieveSpatialData(std::vector<glm::uvec3>& spatialIndices, std::vector<glm::uint>& spatialOffsets) {
     spatialIndices.resize(particleCount);
     spatialOffsets.resize(particleCount);
 
@@ -160,38 +151,37 @@ void ParticleBuffers::RetrieveSpatialData(std::vector<glm::uvec3>& spatialIndice
     glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 }
 
-
-GLuint ParticleBuffers::GetSpatialOffsetsBuffer() const {
+GLuint ParticleBuffers3D::GetSpatialOffsetsBuffer() const {
     return spatialOffsetsBuffer;
 }
 
-GLuint ParticleBuffers::GetSpatialIndicesBuffer() const {
+GLuint ParticleBuffers3D::GetSpatialIndicesBuffer() const {
     return spatialIndicesBuffer;
-
 }
-void ParticleBuffers::DebugBufferData() {
-    std::vector<glm::vec2> positions, velocities, predictedPositions, densities;
+
+void ParticleBuffers3D::DebugBufferData() {
+    std::vector<glm::vec3> positions, velocities, predictedPositions;
+    std::vector<glm::vec2> densities;
     RetrieveData(positions, velocities, predictedPositions, densities);
 
     std::cout << "Particle Buffers Debug Info:" << std::endl;
     for (size_t i = 0; i < 5; ++i) {
         std::cout << "Particle " << i << ":" << std::endl;
-        std::cout << "  Position: (" << positions[i].x << ", " << positions[i].y << ")" << std::endl;
-        std::cout << "  Velocity: (" << velocities[i].x << ", " << velocities[i].y << ")" << std::endl;
-        std::cout << "  Predicted Position: (" << predictedPositions[i].x << ", " << predictedPositions[i].y << ")" << std::endl;
-        std::cout << "  Densities: (" << densities[i].x << ", " << densities[i].y << ")" << std::endl;
+        std::cout << "  Position: (" << positions[i].x << ", " << positions[i].y << ", " << positions[i].z << ")" << std::endl;
+        std::cout << "  Velocity: (" << velocities[i].x << ", " << velocities[i].y << ", " << velocities[i].z << ")" << std::endl;
+        std::cout << "  Predicted Position: (" << predictedPositions[i].x << ", " << predictedPositions[i].y << ", " << predictedPositions[i].z << ")" << std::endl;
+        std::cout << "  Densities: " << densities[i].x << " " << densities[i].y << std::endl;
     }
 }
 
-void ParticleBuffers::CheckGLError(const std::string& operation) {
+void ParticleBuffers3D::CheckGLError(const std::string& operation) {
     GLenum err;
     while ((err = glGetError()) != GL_NO_ERROR) {
         std::cerr << "OpenGL error during " << operation << ": " << std::hex << err << std::dec << std::endl;
     }
 }
 
-void ParticleBuffers::RetrieveDebugData(std::vector<glm::uint>& debugValues) {
-//  useComputeShader();
+void ParticleBuffers3D::RetrieveDebugData(std::vector<glm::uint>& debugValues) {
     debugValues.resize(particleCount * 8);
     glBindBuffer(GL_SHADER_STORAGE_BUFFER, debugBuffer);
     glm::uint* debugValuesPtr = (glm::uint*)glMapBufferRange(GL_SHADER_STORAGE_BUFFER, 0, debugValues.size() * sizeof(glm::uint), GL_MAP_READ_BIT);
@@ -207,8 +197,7 @@ void ParticleBuffers::RetrieveDebugData(std::vector<glm::uint>& debugValues) {
     glBindBuffer(GL_SHADER_STORAGE_BUFFER, 0);
 }
 
-
-void ParticleBuffers::useComputeShader() {
+void ParticleBuffers3D::useComputeShader() {
     computeShader->use();
     GLuint computeShaderID = computeShader->ID;
     glUseProgram(computeShaderID);

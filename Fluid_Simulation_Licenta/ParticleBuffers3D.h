@@ -1,5 +1,5 @@
-#ifndef PARTICLE_BUFFERS_H
-#define PARTICLE_BUFFERS_H
+#ifndef PARTICLE_BUFFERS_3D_H
+#define PARTICLE_BUFFERS_3D_H
 
 #include <GL/glew.h>
 #include <glm/glm.hpp>
@@ -8,17 +8,17 @@
 #include "ParticleData.h"
 #include "ComputeShader.h"
 
-class ParticleBuffers {
+class ParticleBuffers3D {
 public:
-    ParticleBuffers(size_t particleCount, ComputeShader* computeShdaer);
-    ~ParticleBuffers();
+    ParticleBuffers3D(size_t particleCount, ComputeShader* computeShader);
+    ~ParticleBuffers3D();
 
     void InitBuffers(size_t particleCount);
 
-    void UpdateData(const std::vector<glm::vec2>& positions, const std::vector<glm::vec2>& velocities, const std::vector<glm::vec2>& predictedPositions, const std::vector<glm::vec2>& densities);
+    void UpdateData(const std::vector<glm::vec3>& positions, const std::vector<glm::vec3>& velocities, const std::vector<glm::vec3>& predictedPositions, const std::vector<glm::vec2>& densities);
     void UpdateSpatialData(const std::vector<glm::uvec3>& spatialIndices, const std::vector<glm::uint>& spatialOffsets);
-    void UpdateAllBuffers(const ParticleData& particleData);
-    void RetrieveData(std::vector<glm::vec2>& positions, std::vector<glm::vec2>& velocities, std::vector<glm::vec2>& predictedPositions, std::vector<glm::vec2>& densities);
+    void UpdateAllBuffers(const ParticleData3D& particleData);
+    void RetrieveData(std::vector<glm::vec3>& positions, std::vector<glm::vec3>& velocities, std::vector<glm::vec3>& predictedPositions, std::vector<glm::vec2>& densities);
     void RetrieveSpatialData(std::vector<glm::uvec3>& spatialIndices, std::vector<glm::uint>& spatialOffsets);
     GLuint GetSpatialOffsetsBuffer() const;
     GLuint GetSpatialIndicesBuffer() const;
@@ -43,4 +43,4 @@ private:
     ComputeShader* computeShader;
 };
 
-#endif // PARTICLE_BUFFERS_H
+#endif // PARTICLE_BUFFERS_3D_H

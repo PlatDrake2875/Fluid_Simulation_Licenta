@@ -3,11 +3,11 @@
 #include <fstream>
 #include <sstream>
 
-ComputeShader::ComputeShader(const std::string& computePath) {
+ComputeShader::ComputeShader(const std::string& computePath) : computePath(computePath) {
+    // preprocessor.setDebugEnabled(true);
     // Preprocess shader to handle includes
     std::string computeCode = preprocessor.preprocessShader(computePath);
 
-    // Print the preprocessed compute shader code for debugging
     //std::cout << "Preprocessed Compute Shader Code:\n" << computeCode << std::endl;
 
     const char* cShaderCode = computeCode.c_str();
@@ -29,6 +29,7 @@ ComputeShader::ComputeShader(const std::string& computePath) {
 }
 
 void ComputeShader::use() {
+    //std::cout << "Using " << "/ "<< computePath << " / shader\n";
     glUseProgram(ID);
     CheckGLError("Use Program");
 }

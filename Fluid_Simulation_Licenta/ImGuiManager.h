@@ -23,7 +23,6 @@ private:
 
     void RenderSimulationControls();
     void RenderShaderManagerControls();
-    void RenderWindow(const char* title, void (ImGuiManager::* renderFunc)(), float& offsetY);
     void RenderFPS();
     void RenderMenu();
 

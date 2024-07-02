@@ -88,35 +88,92 @@
     <Filter Include="imgui">
       <UniqueIdentifier>{b92b536a-4e5d-4194-8b39-237e7dc44c2f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Resource Files\shaders\compute">
-      <UniqueIdentifier>{b66580d7-3706-4751-af3b-783e49546a89}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Resource Files\shaders\fragment">
-      <UniqueIdentifier>{1a8994a5-aeb6-4b11-9a98-fd27402e22c0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Resource Files\shaders\vertex">
-      <UniqueIdentifier>{e4f1c24d-eed7-484e-98fd-aa98a9466f10}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Resource Files\shaders\geometry">
-      <UniqueIdentifier>{a5b73b88-ea32-4bbf-b9ea-4acc30e0f32b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\shaders">
-      <UniqueIdentifier>{e4f3b674-d90b-48cb-823c-a1a6915385ef}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\particles">
-      <UniqueIdentifier>{f416f5ae-3b3d-4cdc-b7af-e9f0ebc9567b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\init">
-      <UniqueIdentifier>{a91572ac-c172-462e-b5d8-0445de3379fb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\particles">
-      <UniqueIdentifier>{1991f9ea-08ac-42b9-8519-17b6dee96710}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\shaders">
-      <UniqueIdentifier>{fb50c7be-75c1-429b-9ce5-7ab2d6e5fb7e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\init">
       <UniqueIdentifier>{a81d8fab-3e43-4570-81ec-38ff4136168b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\3D">
+      <UniqueIdentifier>{17ae9573-169d-4bbc-af5d-50dca25640f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\3D\particles">
+      <UniqueIdentifier>{fee67785-543b-4e3b-8a29-40bfd3545291}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\2D">
+      <UniqueIdentifier>{13487374-d5f6-488a-9368-96fa262e8075}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\2D\init">
+      <UniqueIdentifier>{a91572ac-c172-462e-b5d8-0445de3379fb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\2D\simulation">
+      <UniqueIdentifier>{67f2f7ad-baf4-4758-8d69-2d5d81025efa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\2D\particles">
+      <UniqueIdentifier>{f416f5ae-3b3d-4cdc-b7af-e9f0ebc9567b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\2D\shaders">
+      <UniqueIdentifier>{e4f3b674-d90b-48cb-823c-a1a6915385ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\2D">
+      <UniqueIdentifier>{8639ea45-628d-4e76-bd5b-ac499cdf9ca0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\2D\simulation">
+      <UniqueIdentifier>{be2c2d07-30cc-44c7-bcb6-146e7b216930}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\2D\particles">
+      <UniqueIdentifier>{1991f9ea-08ac-42b9-8519-17b6dee96710}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\2D\shaders">
+      <UniqueIdentifier>{fb50c7be-75c1-429b-9ce5-7ab2d6e5fb7e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\shaders\2D">
+      <UniqueIdentifier>{9f8b7168-d250-4674-a62b-d507ff75842d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\shaders\2D\geometry">
+      <UniqueIdentifier>{a5b73b88-ea32-4bbf-b9ea-4acc30e0f32b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\shaders\2D\vertex">
+      <UniqueIdentifier>{e4f1c24d-eed7-484e-98fd-aa98a9466f10}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\shaders\2D\fragment">
+      <UniqueIdentifier>{1a8994a5-aeb6-4b11-9a98-fd27402e22c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\shaders\2D\compute">
+      <UniqueIdentifier>{b66580d7-3706-4751-af3b-783e49546a89}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\3D">
+      <UniqueIdentifier>{d019561a-a50d-410b-8cce-b34ea3b6e2a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\3D\simulation">
+      <UniqueIdentifier>{3ebe03be-712d-466f-9e06-0caedea97360}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\3D\shaders">
+      <UniqueIdentifier>{80008826-41a9-40e7-9a1f-d09e5cea6d50}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\3D\shaders">
+      <UniqueIdentifier>{48a17318-cd03-49b3-a9dc-c1bdd3528218}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\enums">
+      <UniqueIdentifier>{7a5ad6e6-b6b7-40f7-966a-96569374a284}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\shaders\3D">
+      <UniqueIdentifier>{8ce47372-f6db-4f79-a60b-6373289ef321}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\shaders\3D\vertex">
+      <UniqueIdentifier>{73584ee6-a25f-426b-8713-a2e2302a5224}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\shaders\3D\fragment">
+      <UniqueIdentifier>{8bd6fc35-515f-446b-a517-3d423e30e867}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\shaders\3D\compute">
+      <UniqueIdentifier>{ca006375-1133-4320-9c88-5283c31a9371}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\3D\particles">
+      <UniqueIdentifier>{9f86c1af-56f2-4b5d-9df6-7d0d65b5b0d1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\misc">
+      <UniqueIdentifier>{9d9a1837-34fb-4873-acc4-27dc012e5f89}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\misc">
+      <UniqueIdentifier>{c78847e5-38ca-4f9c-9817-94de1d92609a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -134,15 +191,6 @@
     </ClCompile>
     <ClCompile Include="include\glm\detail\glm.cpp">
       <Filter>Header Files\template-built-ins\glm\detail</Filter>
-    </ClCompile>
-    <ClCompile Include="Simulation.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="FluidSimulationApp.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ImGuiManager.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="imgui\imgui.cpp">
       <Filter>imgui</Filter>
@@ -169,34 +217,79 @@
       <Filter>imgui</Filter>
     </ClCompile>
     <ClCompile Include="ComputeShader.cpp">
-      <Filter>Source Files\shaders</Filter>
+      <Filter>Source Files\2D\shaders</Filter>
     </ClCompile>
     <ClCompile Include="ShaderManager.cpp">
-      <Filter>Source Files\shaders</Filter>
+      <Filter>Source Files\2D\shaders</Filter>
     </ClCompile>
     <ClCompile Include="ShaderPreprocessor.cpp">
-      <Filter>Source Files\shaders</Filter>
+      <Filter>Source Files\2D\shaders</Filter>
     </ClCompile>
     <ClCompile Include="Shader.cpp">
-      <Filter>Source Files\shaders</Filter>
+      <Filter>Source Files\2D\shaders</Filter>
     </ClCompile>
     <ClCompile Include="ParticleBuffers.cpp">
-      <Filter>Source Files\particles</Filter>
+      <Filter>Source Files\2D\particles</Filter>
     </ClCompile>
     <ClCompile Include="ParticleGenerator.cpp">
-      <Filter>Source Files\particles</Filter>
+      <Filter>Source Files\2D\particles</Filter>
     </ClCompile>
     <ClCompile Include="ParticleRenderer.cpp">
-      <Filter>Source Files\particles</Filter>
+      <Filter>Source Files\2D\particles</Filter>
     </ClCompile>
     <ClCompile Include="ParticleSystem.cpp">
-      <Filter>Source Files\particles</Filter>
+      <Filter>Source Files\2D\particles</Filter>
     </ClCompile>
     <ClCompile Include="GlewInitializer.cpp">
-      <Filter>Source Files\init</Filter>
+      <Filter>Source Files\2D\init</Filter>
     </ClCompile>
     <ClCompile Include="GlutInitializer.cpp">
-      <Filter>Source Files\init</Filter>
+      <Filter>Source Files\2D\init</Filter>
+    </ClCompile>
+    <ClCompile Include="GPUSort.cpp">
+      <Filter>Source Files\2D\particles</Filter>
+    </ClCompile>
+    <ClCompile Include="Simulation.cpp">
+      <Filter>Source Files\2D\simulation</Filter>
+    </ClCompile>
+    <ClCompile Include="Simulation3D.cpp">
+      <Filter>Source Files\3D\simulation</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderManager3D.cpp">
+      <Filter>Source Files\3D\shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticleSystem3D.cpp">
+      <Filter>Source Files\3D\particles</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticleRenderer3D.cpp">
+      <Filter>Source Files\3D\particles</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticleGenerator3D.cpp">
+      <Filter>Source Files\3D\particles</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticleBuffers3D.cpp">
+      <Filter>Source Files\3D\particles</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Source Files\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGuiManager.cpp">
+      <Filter>Source Files\misc</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGuiManager3D.cpp">
+      <Filter>Source Files\misc</Filter>
+    </ClCompile>
+    <ClCompile Include="SimulationFactory.cpp">
+      <Filter>Source Files\misc</Filter>
+    </ClCompile>
+    <ClCompile Include="Movement.cpp">
+      <Filter>Source Files\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneBuilder.cpp">
+      <Filter>Source Files\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Mesh.cpp">
+      <Filter>Source Files\3D</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1091,12 +1184,6 @@
     <ClInclude Include="include\glm\simd\vector_relational.h">
       <Filter>Header Files\template-built-ins\glm\simd</Filter>
     </ClInclude>
-    <ClInclude Include="FluidSimulationApp.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ImGuiManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="imgui\imconfig.h">
       <Filter>imgui</Filter>
     </ClInclude>
@@ -1128,40 +1215,88 @@
       <Filter>imgui</Filter>
     </ClInclude>
     <ClInclude Include="ParticleBuffers.h">
-      <Filter>Header Files\particles</Filter>
+      <Filter>Header Files\2D\particles</Filter>
     </ClInclude>
     <ClInclude Include="ParticleData.h">
-      <Filter>Header Files\particles</Filter>
+      <Filter>Header Files\2D\particles</Filter>
     </ClInclude>
     <ClInclude Include="ParticleGenerator.h">
-      <Filter>Header Files\particles</Filter>
+      <Filter>Header Files\2D\particles</Filter>
     </ClInclude>
     <ClInclude Include="ParticleRenderer.h">
-      <Filter>Header Files\particles</Filter>
+      <Filter>Header Files\2D\particles</Filter>
     </ClInclude>
     <ClInclude Include="ParticleSystem.h">
-      <Filter>Header Files\particles</Filter>
+      <Filter>Header Files\2D\particles</Filter>
     </ClInclude>
     <ClInclude Include="Shader.h">
-      <Filter>Header Files\shaders</Filter>
+      <Filter>Header Files\2D\shaders</Filter>
     </ClInclude>
     <ClInclude Include="ShaderManager.h">
-      <Filter>Header Files\shaders</Filter>
+      <Filter>Header Files\2D\shaders</Filter>
     </ClInclude>
     <ClInclude Include="ShaderPreprocessor.h">
-      <Filter>Header Files\shaders</Filter>
+      <Filter>Header Files\2D\shaders</Filter>
     </ClInclude>
     <ClInclude Include="Simulation.h">
-      <Filter>Header Files\shaders</Filter>
+      <Filter>Header Files\2D\shaders</Filter>
     </ClInclude>
     <ClInclude Include="ComputeShader.h">
-      <Filter>Header Files\shaders</Filter>
+      <Filter>Header Files\2D\shaders</Filter>
     </ClInclude>
     <ClInclude Include="GlewInitializer.h">
       <Filter>Header Files\init</Filter>
     </ClInclude>
     <ClInclude Include="GlutInitializer.h">
       <Filter>Header Files\init</Filter>
+    </ClInclude>
+    <ClInclude Include="SimulationFactory.h">
+      <Filter>Header Files\2D\simulation</Filter>
+    </ClInclude>
+    <ClInclude Include="Simulation3D.h">
+      <Filter>Header Files\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderManager3D.h">
+      <Filter>Header Files\3D\shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="AppState.h">
+      <Filter>Header Files\enums</Filter>
+    </ClInclude>
+    <ClInclude Include="SimType.h">
+      <Filter>Header Files\enums</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleSystem3D.h">
+      <Filter>Header Files\3D\particles</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleGenerator3D.h">
+      <Filter>Header Files\3D\particles</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleRenderer3D.h">
+      <Filter>Header Files\3D\particles</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleBuffers3D.h">
+      <Filter>Header Files\3D\particles</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGuiManager.h">
+      <Filter>Header Files\misc</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGuiManager3D.h">
+      <Filter>Header Files\misc</Filter>
+    </ClInclude>
+    <ClInclude Include="GPUSort.h">
+      <Filter>Header Files\misc</Filter>
+    </ClInclude>
+    <ClInclude Include="Movement.h">
+      <Filter>Header Files\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneBuilder.h">
+      <Filter>Header Files\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Header Files\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Mesh.h">
+      <Filter>Header Files\3D</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1638,29 +1773,47 @@
     <None Include="lib\x64\GL\DLLs\glew32.dll">
       <Filter>Resource Files\template-built-ins\DLLs\64b</Filter>
     </None>
-    <None Include="shaders\BitonicMergeSort.comp">
-      <Filter>Resource Files\shaders\compute</Filter>
+    <None Include="shaders\2D.vert">
+      <Filter>Resource Files\shaders\2D\vertex</Filter>
     </None>
-    <None Include="shaders\FluidSimulationKernels.glsl">
-      <Filter>Resource Files\shaders\compute</Filter>
-    </None>
-    <None Include="shaders\FluidSimulator.comp">
-      <Filter>Resource Files\shaders\compute</Filter>
-    </None>
-    <None Include="shaders\FluidSimulatorHash.comp">
-      <Filter>Resource Files\shaders\compute</Filter>
-    </None>
-    <None Include="shaders\gridHash.glsl">
-      <Filter>Resource Files\shaders\compute</Filter>
-    </None>
-    <None Include="shaders\example.vert">
-      <Filter>Resource Files\shaders\vertex</Filter>
-    </None>
-    <None Include="shaders\example.frag">
-      <Filter>Resource Files\shaders\fragment</Filter>
+    <None Include="shaders\2D.frag">
+      <Filter>Resource Files\shaders\2D\fragment</Filter>
     </None>
     <None Include="shaders\particle.geom">
-      <Filter>Resource Files\shaders\geometry</Filter>
+      <Filter>Resource Files\shaders\2D\geometry</Filter>
+    </None>
+    <None Include="shaders\BitonicMergeSort.comp">
+      <Filter>Resource Files\shaders\2D\compute</Filter>
+    </None>
+    <None Include="shaders\FluidSimulator.comp">
+      <Filter>Resource Files\shaders\2D\compute</Filter>
+    </None>
+    <None Include="shaders\gridHash.glsl">
+      <Filter>Resource Files\shaders\2D\compute</Filter>
+    </None>
+    <None Include="shaders\FluidSimulator_3D.comp">
+      <Filter>Resource Files\shaders\3D\compute</Filter>
+    </None>
+    <None Include="shaders\FluidSimulatorHash_3D.comp">
+      <Filter>Resource Files\shaders\3D\compute</Filter>
+    </None>
+    <None Include="shaders\gridHash_3D.glsl">
+      <Filter>Resource Files\shaders\3D\compute</Filter>
+    </None>
+    <None Include="shaders\particle_3D.geom">
+      <Filter>Resource Files\shaders\3D\compute</Filter>
+    </None>
+    <None Include="shaders\FluidSimulationKernels.glsl">
+      <Filter>Resource Files\shaders\2D\compute</Filter>
+    </None>
+    <None Include="shaders\3D.vert">
+      <Filter>Resource Files\shaders\3D\vertex</Filter>
+    </None>
+    <None Include="shaders\3D.frag">
+      <Filter>Resource Files\shaders\3D\fragment</Filter>
+    </None>
+    <None Include="shaders\FluidSimulatorHash.comp">
+      <Filter>Resource Files\shaders\2D\compute</Filter>
     </None>
   </ItemGroup>
 </Project>

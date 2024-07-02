@@ -1,6 +1,7 @@
 #include "Simulation.h"
 
 Simulation* Simulation::instance = nullptr;
+bool Simulation::resetSimulationFlag = false;
 
 Simulation::Simulation(int argc, char** argv) {
     Initialize(argc, argv);
@@ -15,13 +16,13 @@ void Simulation::Initialize(int argc, char** argv) {
 
 void Simulation::InitializeGLUT(int argc, char** argv) {
     GlutInitializer glutInitializer(argc, argv);
-    if (!glutInitializer.Initialize()) {
+    /*if (!glutInitializer.Initialize()) {
         std::cerr << "Failed to initialize GLUT\n";
         std::exit(EXIT_FAILURE);
-    }
+    }*/
 
     // Initialize the main simulation window
-    glutInitializer.InitializeWindow("Particle Generator Example", 1366, 768, 10, 10);
+    glutInitializer.InitializeWindow("SPH 2D", 1366, 768, 10, 10);
     mainWindowId = glutGetWindow();
     debugPrint("Main window ID: " + std::to_string(mainWindowId));
 }
@@ -58,13 +59,14 @@ void Simulation::Cleanup() {
 void Simulation::RestartSimulation() {
     delete particleSystem;
     particleSystem = new ParticleSystem(shaderManager);
+    resetSimulationFlag = false;  // Reset the flag
 }
 
 void Simulation::Run() {
     debugPrint("Setting up callbacks for main window.");
     glutDisplayFunc(DisplayCallback);
     glutReshapeFunc(ReshapeCallback);
-    glutTimerFunc(16, TimerCallback, 0);
+    glutTimerFunc(8, TimerCallback, 0);
 
     debugPrint("Entering GLUT main loop.");
     glutMainLoop();
@@ -124,6 +126,9 @@ void Simulation::UpdateParticles() {
 }
 
 void Simulation::RunSimulationFrame(float frameTime) {
+    if (resetSimulationFlag) {
+        RestartSimulation();
+    }
     if (!isPaused) {
         float timeStep = frameTime / iterationsPerFrame * timeScale;
         UpdateSettings(timeStep);
@@ -133,6 +138,7 @@ void Simulation::RunSimulationFrame(float frameTime) {
         }
     }
 }
+
 
 void Simulation::UpdateSettings(float timeStep) {
     shaderManager->UpdateComputeShaderSettings(timeStep);

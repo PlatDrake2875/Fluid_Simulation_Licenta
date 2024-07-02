@@ -14,4 +14,14 @@ struct ParticleData {
     std::vector<GLuint> spatialOffsets;
 };
 
+
+struct ParticleData3D {
+    std::vector<glm::vec3> positions;
+    std::vector<glm::vec3> velocities;
+    std::vector<glm::vec3> predictedPositions;
+    std::vector<glm::vec2> densities;
+    std::vector<glm::uvec3> spatialIndices;
+    std::vector<GLuint> spatialOffsets;
+};
+
 #endif // PARTICLE_DATA_H
