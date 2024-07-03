@@ -291,6 +291,12 @@
     <ClCompile Include="Mesh.cpp">
       <Filter>Source Files\3D</Filter>
     </ClCompile>
+    <ClCompile Include="QuadTree.cpp">
+      <Filter>Source Files\2D\simulation</Filter>
+    </ClCompile>
+    <ClCompile Include="Octree.cpp">
+      <Filter>Source Files\3D\simulation</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\SOIL.h">
@@ -1298,6 +1304,12 @@
     <ClInclude Include="Mesh.h">
       <Filter>Header Files\3D</Filter>
     </ClInclude>
+    <ClInclude Include="Octree.h">
+      <Filter>Header Files\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="QuadTree.h">
+      <Filter>Header Files\2D\simulation</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="include\glm\CMakeLists.txt">
@@ -1791,20 +1803,11 @@
     <None Include="shaders\gridHash.glsl">
       <Filter>Resource Files\shaders\2D\compute</Filter>
     </None>
-    <None Include="shaders\FluidSimulator_3D.comp">
-      <Filter>Resource Files\shaders\3D\compute</Filter>
-    </None>
     <None Include="shaders\FluidSimulatorHash_3D.comp">
-      <Filter>Resource Files\shaders\3D\compute</Filter>
-    </None>
-    <None Include="shaders\gridHash_3D.glsl">
       <Filter>Resource Files\shaders\3D\compute</Filter>
     </None>
     <None Include="shaders\particle_3D.geom">
       <Filter>Resource Files\shaders\3D\compute</Filter>
-    </None>
-    <None Include="shaders\FluidSimulationKernels.glsl">
-      <Filter>Resource Files\shaders\2D\compute</Filter>
     </None>
     <None Include="shaders\3D.vert">
       <Filter>Resource Files\shaders\3D\vertex</Filter>
@@ -1814,6 +1817,15 @@
     </None>
     <None Include="shaders\FluidSimulatorHash.comp">
       <Filter>Resource Files\shaders\2D\compute</Filter>
+    </None>
+    <None Include="shaders\FluidSimulationKernels.glsl">
+      <Filter>Resource Files\shaders\2D\compute</Filter>
+    </None>
+    <None Include="shaders\FluidSimulator_3D.comp">
+      <Filter>Resource Files\shaders\3D\compute</Filter>
+    </None>
+    <None Include="shaders\gridHash_3D.glsl">
+      <Filter>Resource Files\shaders\3D\compute</Filter>
     </None>
   </ItemGroup>
 </Project>

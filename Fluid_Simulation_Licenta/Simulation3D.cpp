@@ -189,31 +189,27 @@ void Simulation3D::RunSimulationFrame(float frameTime) {
         RestartSimulation();
     }
     if (!isPaused) {
-        // Retrieve parameters from ShaderManager
         float smoothingRadius = shaderManager->GetSmoothingRadius();
 
-        // Calculate adaptive time step
         float maxVelocity = particleSystem->GetMaxVelocity();
         float deltaTime = frameTime / iterationsPerFrame;
         float maxAcceleration = particleSystem->GetMaxAcceleration(deltaTime);
 
-        // Ensure maxVelocity and maxAcceleration are not zero to avoid division by zero
         if (maxVelocity == 0.0f) maxVelocity = 1.0f;
         if (maxAcceleration == 0.0f) maxAcceleration = 1.0f;
 
-        float timeStepVelocity = 0.25f * (smoothingRadius / maxVelocity); // CFL condition
+        float timeStepVelocity = 0.25f * (smoothingRadius / maxVelocity); // CFL condition for PDEs
         float timeStepAcceleration = 0.25f * sqrt(smoothingRadius / maxAcceleration); // Force-based condition
 
         float adaptiveTimeStep = std::min(timeStepVelocity, timeStepAcceleration);
 
         // Ensure timeStep is within a reasonable range
-        float minTimeStep = 0.001f;
+        float minTimeStep = 0.0001f;
         float maxTimeStep = 0.01f;
         adaptiveTimeStep = glm::clamp(adaptiveTimeStep, minTimeStep, maxTimeStep);
 
         float timeStep = adaptiveTimeStep * timeScale;
 
-        // Update the shader with the new time step
         shaderManager->UpdateComputeShaderSettings(timeStep);
         shaderManager->GetMovementHandler()->processInput(timeStep);
 

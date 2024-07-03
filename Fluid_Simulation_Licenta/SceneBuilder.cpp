@@ -83,16 +83,20 @@ void SceneBuilder::destroyMeshes() {
 
 std::vector<GLfloat> SceneBuilder::generateBoundingBoxVertices(const glm::vec3& min, const glm::vec3& max) {
     return {
+        // Front face
         min.x, min.y, min.z,
         max.x, min.y, min.z,
         max.x, max.y, min.z,
         min.x, max.y, min.z,
+
+        // Back face
         min.x, min.y, max.z,
         max.x, min.y, max.z,
         max.x, max.y, max.z,
         min.x, max.y, max.z
     };
 }
+
 
 std::vector<GLfloat> SceneBuilder::generateFloorVertices() {
     return {

@@ -204,6 +204,7 @@ xcopy /y /d "$(ProjectDir)lib\x64\SOIL\*.dll" "$(OutDir)" &amp;</Command>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="Movement.cpp" />
+    <ClCompile Include="Octree.cpp" />
     <ClCompile Include="ParticleBuffers.cpp" />
     <ClCompile Include="ParticleBuffers3D.cpp" />
     <ClCompile Include="ParticleGenerator.cpp" />
@@ -212,6 +213,7 @@ xcopy /y /d "$(ProjectDir)lib\x64\SOIL\*.dll" "$(OutDir)" &amp;</Command>
     <ClCompile Include="ParticleRenderer3D.cpp" />
     <ClCompile Include="ParticleSystem.cpp" />
     <ClCompile Include="ParticleSystem3D.cpp" />
+    <ClCompile Include="QuadTree.cpp" />
     <ClCompile Include="SceneBuilder.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="ShaderManager.cpp" />
@@ -542,6 +544,7 @@ xcopy /y /d "$(ProjectDir)lib\x64\SOIL\*.dll" "$(OutDir)" &amp;</Command>
     <ClInclude Include="include\SOIL.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Movement.h" />
+    <ClInclude Include="Octree.h" />
     <ClInclude Include="ParticleBuffers.h" />
     <ClInclude Include="ParticleBuffers3D.h" />
     <ClInclude Include="ParticleData.h" />
@@ -551,6 +554,7 @@ xcopy /y /d "$(ProjectDir)lib\x64\SOIL\*.dll" "$(OutDir)" &amp;</Command>
     <ClInclude Include="ParticleRenderer3D.h" />
     <ClInclude Include="ParticleSystem.h" />
     <ClInclude Include="ParticleSystem3D.h" />
+    <ClInclude Include="QuadTree.h" />
     <ClInclude Include="SceneBuilder.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="ShaderManager.h" />

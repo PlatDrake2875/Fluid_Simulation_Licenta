@@ -64,9 +64,9 @@ void ShaderManager3D::SetupComputeShader(const std::string& shaderFile) {
 }
 
 void ShaderManager3D::ApplyComputeShaderSettings() {
-    computeShader->setUInt("numParticles", 10000); // Placeholder
+    computeShader->setUInt("numParticles", 10000); 
     computeShader->setFloat("gravity", gravity);
-    computeShader->setFloat("deltaTime", 0.000001f);
+    computeShader->setFloat("deltaTime", 0.0007f);
     computeShader->setFloat("collisionDamping", collisionDamping);
     computeShader->setFloat("smoothingRadius", smoothingRadius);
     computeShader->setFloat("targetDensity", targetDensity);
@@ -190,64 +190,11 @@ void ShaderManager3D::RenderComputeShaderControls() {
     }
 }
 
-void ShaderManager3D::DrawBoundingBoxEdges() {
-    shader->use();
-
-    // Set the matrices from the camera
-    shader->setMat4("projection", camera->getProjectionMatrix());
-    shader->setMat4("view", camera->getViewMatrix());
-    shader->setMat4("model", glm::mat4(1.0f)); // Assuming the model matrix is identity for the bounding box
-
-    // Draw the bounding box edges using GL_LINES
-    glBegin(GL_LINES);
-
-    // Bottom edges
-    glVertex3f(boundingBoxMin.x, boundingBoxMin.y, boundingBoxMin.z);
-    glVertex3f(boundingBoxMax.x, boundingBoxMin.y, boundingBoxMin.z);
-
-    glVertex3f(boundingBoxMax.x, boundingBoxMin.y, boundingBoxMin.z);
-    glVertex3f(boundingBoxMax.x, boundingBoxMin.y, boundingBoxMax.z);
-
-    glVertex3f(boundingBoxMax.x, boundingBoxMin.y, boundingBoxMax.z);
-    glVertex3f(boundingBoxMin.x, boundingBoxMin.y, boundingBoxMax.z);
-
-    glVertex3f(boundingBoxMin.x, boundingBoxMin.y, boundingBoxMax.z);
-    glVertex3f(boundingBoxMin.x, boundingBoxMin.y, boundingBoxMin.z);
-
-    // Top edges
-    glVertex3f(boundingBoxMin.x, boundingBoxMax.y, boundingBoxMin.z);
-    glVertex3f(boundingBoxMax.x, boundingBoxMax.y, boundingBoxMin.z);
-
-    glVertex3f(boundingBoxMax.x, boundingBoxMax.y, boundingBoxMin.z);
-    glVertex3f(boundingBoxMax.x, boundingBoxMax.y, boundingBoxMax.z);
-
-    glVertex3f(boundingBoxMax.x, boundingBoxMax.y, boundingBoxMax.z);
-    glVertex3f(boundingBoxMin.x, boundingBoxMax.y, boundingBoxMax.z);
-
-    glVertex3f(boundingBoxMin.x, boundingBoxMax.y, boundingBoxMax.z);
-    glVertex3f(boundingBoxMin.x, boundingBoxMax.y, boundingBoxMin.z);
-
-    // Vertical edges
-    glVertex3f(boundingBoxMin.x, boundingBoxMin.y, boundingBoxMin.z);
-    glVertex3f(boundingBoxMin.x, boundingBoxMax.y, boundingBoxMin.z);
-
-    glVertex3f(boundingBoxMax.x, boundingBoxMin.y, boundingBoxMin.z);
-    glVertex3f(boundingBoxMax.x, boundingBoxMax.y, boundingBoxMin.z);
-
-    glVertex3f(boundingBoxMax.x, boundingBoxMin.y, boundingBoxMax.z);
-    glVertex3f(boundingBoxMax.x, boundingBoxMax.y, boundingBoxMax.z);
-
-    glVertex3f(boundingBoxMin.x, boundingBoxMin.y, boundingBoxMax.z);
-    glVertex3f(boundingBoxMin.x, boundingBoxMax.y, boundingBoxMax.z);
-
-    glEnd();
-}
-
 
 void ShaderManager3D::DrawInteractionRadiusSphere() {
     shader->use();
 
-    const int numSegments = 36;  // Number of segments for latitude and longitude
+    const int numSegments = 36; 
     const float angleIncrement = 2.0f * static_cast<float>(M_PI) / numSegments;
 
     for (int i = 0; i <= numSegments; ++i) {

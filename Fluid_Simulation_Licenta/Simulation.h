@@ -66,7 +66,7 @@ private:
     ImGuiManager* imguiManager;
 
     bool isPaused = false;
-    float timeScale = 1.0f;
+    float timeScale = 2.5f;
     float frameTime = 0.016f;
     AppState appState = AppState::MENU;
 

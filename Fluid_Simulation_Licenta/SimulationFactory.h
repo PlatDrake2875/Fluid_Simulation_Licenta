@@ -1,6 +1,5 @@
-// SimulationFactory.h
-#ifndef SIMULATIONFACTORY_H
-#define SIMULATIONFACTORY_H
+#ifndef SIMULATION_FACTORY_H
+#define SIMULATION_FACTORY_H
 
 #include "SimType.h"
 #include "Simulation.h"
@@ -8,16 +7,7 @@
 
 class SimulationFactory {
 public:
-    static void* CreateSimulation(SimType type, int argc, char** argv) {
-        switch (type) {
-        case SimType::SIMULATION_2D:
-            return new Simulation(argc, argv); 
-        case SimType::SIMULATION_3D:
-            return new Simulation3D(argc, argv);
-        default:
-            return nullptr;
-        }
-    }
+    static void* CreateSimulation(SimType type, int argc, char** argv);
 };
 
-#endif // SIMULATIONFACTORY_H
+#endif // SIMULATION_FACTORY_H

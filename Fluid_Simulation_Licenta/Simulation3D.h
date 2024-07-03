@@ -75,7 +75,7 @@ private:
     SceneBuilder* sceneBuilder;
 
     bool isPaused = false;
-    float timeScale = 0.007f;
+    float timeScale = 1.0f;
     float frameTime = 0.016f;
     AppState appState = AppState::MENU;
 
