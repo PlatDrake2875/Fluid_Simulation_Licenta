@@ -19,13 +19,13 @@ void SceneBuilder::createMeshes() {
     std::vector<GLfloat> cubeVertices = generateBoundingBoxVertices(bboxMin, bboxMax);
     std::vector<GLfloat> cubeColors = {
         0.0f, 0.0f, 0.0f,  // Black
-        0.0f, 0.0f, 0.0f,  // Black
-        0.0f, 0.0f, 0.0f,  // Black
-        0.0f, 0.0f, 0.0f,  // Black
-        0.0f, 0.0f, 0.0f,  // Black
-        0.0f, 0.0f, 0.0f,  // Black
-        0.0f, 0.0f, 0.0f,  // Black
-        0.0f, 0.0f, 0.0f   // Black
+        0.0f, 0.0f, 0.0f, 
+        0.0f, 0.0f, 0.0f,  
+        0.0f, 0.0f, 0.0f,  
+        0.0f, 0.0f, 0.0f,  
+        0.0f, 0.0f, 0.0f,  
+        0.0f, 0.0f, 0.0f,  
+        0.0f, 0.0f, 0.0f   
     };
     GLuint cubeIndices[] = {
         0, 1, 2, 2, 3, 0,

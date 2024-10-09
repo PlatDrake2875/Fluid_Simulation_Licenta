@@ -17,7 +17,7 @@
 #include <iomanip>
 #include "AppState.h"
 
-class ShaderManager;  // Forward declaration
+class ShaderManager;  
 class ParticleSystem;
 class ImGuiManager;
 

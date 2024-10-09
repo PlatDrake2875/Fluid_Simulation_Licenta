@@ -175,6 +175,18 @@
     <Filter Include="Header Files\misc">
       <UniqueIdentifier>{c78847e5-38ca-4f9c-9817-94de1d92609a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\3D\rendering">
+      <UniqueIdentifier>{b6a7c8d5-a9f3-4cb8-be79-6a2b7a0e4f42}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\3D\simulation">
+      <UniqueIdentifier>{16d8cb74-4947-45d1-a9b6-8a5d6bc0a114}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\3D\datastructures">
+      <UniqueIdentifier>{55ff1d77-6bf4-4abf-881c-9277a3eb3abc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\2D\datastructures">
+      <UniqueIdentifier>{e49c96e5-fd2e-4d83-beb4-823e8c17655d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -1259,9 +1271,6 @@
     <ClInclude Include="SimulationFactory.h">
       <Filter>Header Files\2D\simulation</Filter>
     </ClInclude>
-    <ClInclude Include="Simulation3D.h">
-      <Filter>Header Files\3D</Filter>
-    </ClInclude>
     <ClInclude Include="ShaderManager3D.h">
       <Filter>Header Files\3D\shaders</Filter>
     </ClInclude>
@@ -1292,23 +1301,26 @@
     <ClInclude Include="GPUSort.h">
       <Filter>Header Files\misc</Filter>
     </ClInclude>
-    <ClInclude Include="Movement.h">
-      <Filter>Header Files\3D</Filter>
-    </ClInclude>
-    <ClInclude Include="SceneBuilder.h">
-      <Filter>Header Files\3D</Filter>
-    </ClInclude>
     <ClInclude Include="Camera.h">
-      <Filter>Header Files\3D</Filter>
+      <Filter>Header Files\3D\rendering</Filter>
     </ClInclude>
     <ClInclude Include="Mesh.h">
-      <Filter>Header Files\3D</Filter>
+      <Filter>Header Files\3D\rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Movement.h">
+      <Filter>Header Files\3D\rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneBuilder.h">
+      <Filter>Header Files\3D\rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Simulation3D.h">
+      <Filter>Header Files\3D\simulation</Filter>
     </ClInclude>
     <ClInclude Include="Octree.h">
-      <Filter>Header Files\3D</Filter>
+      <Filter>Header Files\3D\datastructures</Filter>
     </ClInclude>
     <ClInclude Include="QuadTree.h">
-      <Filter>Header Files\2D\simulation</Filter>
+      <Filter>Header Files\2D\datastructures</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

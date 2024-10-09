@@ -2,6 +2,7 @@
 #include "Simulation3D.h"
 #include "ShaderManager3D.h"
 
+// Cod adaptat de pe https://github.com/ocornut/imgui
 ImGuiManager3D::ImGuiManager3D(Simulation3D* simulation, ShaderManager3D* shaderManager)
     : simulation(simulation), shaderManager(shaderManager) {}
 

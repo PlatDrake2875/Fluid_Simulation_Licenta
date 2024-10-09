@@ -13,16 +13,10 @@
 class ComputeShader {
 public:
     unsigned int ID;
-    /// <summary>
-    /// Constructor that generates the compute shader
-    /// </summary>
-    /// <param name="computePath"></param>
     ComputeShader(const std::string& computePath);
 
-    // activate the shader
     void use();
 
-    // utility uniform functions
     void setBool(const std::string& name, bool value) const;
     void setInt(const std::string& name, int value) const;
     void setUInt(const std::string& name, unsigned int value) const;
@@ -38,9 +32,7 @@ public:
     void setMat3(const std::string& name, const glm::mat3& mat) const;
     void setMat4(const std::string& name, const glm::mat4& mat) const;
 
-    // Dispatch the compute shader
-    void DispatchComputeShader(GLuint particleCount, int
-        = 64) const;
+    void DispatchComputeShader(GLuint particleCount, int = 64) const;
 
 private:
     ShaderPreprocessor preprocessor;

@@ -2,6 +2,7 @@
 #include "Simulation.h"
 #include "ShaderManager.h"
 
+// Cod adaptat de pe https://github.com/ocornut/imgui
 ImGuiManager::ImGuiManager(Simulation* simulation, ShaderManager* shaderManager)
     : simulation(simulation), shaderManager(shaderManager) {}
 

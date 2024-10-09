@@ -105,11 +105,18 @@ void ComputeShader::setMat4(const std::string& name, const glm::mat4& mat) const
 }
 
 void ComputeShader::DispatchComputeShader(GLuint particleCount, int numThreads) const {
+    if (particleCount == 0 || numThreads <= 0) {
+        std::cerr << "Invalid particle count or number of threads." << std::endl;
+        return;
+    }
+
     GLsizei numGroups = (particleCount + numThreads - 1) / numThreads;
-    if (numGroups == 0) {
+    if (numGroups <= 0) {
         std::cerr << "Invalid number of work groups." << std::endl;
         return;
     }
+
+    CheckGLError("Before DispatchCompute");
 
     glDispatchCompute(numGroups, 1, 1);
     CheckGLError("ComputeShader::DispatchComputeShader - DispatchCompute");
@@ -120,6 +127,7 @@ void ComputeShader::DispatchComputeShader(GLuint particleCount, int numThreads) 
     glMemoryBarrier(GL_SHADER_STORAGE_BARRIER_BIT);
     CheckGLError("ComputeShader::DispatchComputeShader - MemoryBarrier");
 }
+
 
 void ComputeShader::QueryMaxWorkGroupAndComputeUnits(GLint* maxWorkGroupCount, GLint* maxWorkGroupSize, GLint& maxComputeWorkGroupInvocations) const {
     glGetIntegeri_v(GL_MAX_COMPUTE_WORK_GROUP_COUNT, 0, &maxWorkGroupCount[0]);
